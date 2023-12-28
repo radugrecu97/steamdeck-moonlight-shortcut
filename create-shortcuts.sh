@@ -1,11 +1,24 @@
 #!/bin/bash
-
 MOONLIGHT_PATH="/home/deck/Downloads/Moonlight.AppImage"
 HOST_NAME="ALPACA"
 
-# Strings to exclude from processing
-EXCLUDE_APPS=("Desktop" "PlayNite FullScreen App" "Steam Big Picture")
-CMD="$MOONLIGHT_PATH list $HOST_NAME"
+# Apps to exclude from processing.
+# The names are how they're displayed in the moonlight client
+EXCLUDE_APPS=("Desktop" \
+"PlayNite FullScreen App" \
+"Steam Big Picture" \
+"Baldur's Gate 3" \
+"MONSTER HUNTER: WORLD" \
+"Red Dead Redemption 2" \
+"Remnant II" \
+"Resident Evil 3" \
+# "Resident Evil 4" \
+# "Resident Evil Village" \
+)
+
+CMD="$MOONLIGHT_EXE list $HOST_NAME 2>&1"
+
+excluded_app_suggestions=""
 
 function prompt_yes_or_no()
 {
@@ -69,7 +82,7 @@ function get_final_application_list()
 
 function get_moonlight_app_list()
 {
-    output="$($CMD)"
+    output="$($CMD | grep -v 'Qt Warning')"
 
     # Check if the string contains "Failed to connect to"
     if [[ "$output" == *"Failed to connect to"* ]]; then
@@ -82,9 +95,8 @@ function get_moonlight_app_list()
 
 
 function process_applications() {
-    echo
     while IFS= read -r app <&3 || [[ -n "$app" ]]; do
-        output=$(./steamtinkerlaunch/steamtinkerlaunch getexe "$app")
+        output=$(./steamtinkerlaunch/steamtinkerlaunch getexe "$app" 2>&1)
         last_line=$(echo "$output" | tail -n 1)
 
         if [[ $last_line == *"->"* && $last_line != *"No executable"* ]]; then
@@ -94,7 +106,16 @@ function process_applications() {
             prompt_yes_or_no "Do you want to create another shortcut with the same name?" || continue
         fi
 
-        echo "Created Steam shortcut for $app"
+        echo
+        echo "Creating Steam shortcut for $app"
+        output=$(./steamtinkerlaunch/steamtinkerlaunch addnonsteamgame\
+        --appname="$app" \
+        --exepath="$MOONLIGHT_EXE" \
+        --startdir="$MOONLIGHT_PATH" \
+        --launchoptions="stream \"$HOST_NAME\" \"$app\"" \
+        --use-steamgriddb \
+        2>&1)
+        echo "Done!"
     done 3<<< "$1"
 }
 
@@ -119,3 +140,15 @@ prompt_yes_or_no "Do you want to continue?" || exit 1
 echo
 echo "Processing application list"
 process_applications "$list"
+echo "Processed everything! Exiting."
+
+# Print out excluded lines for easy copy-paste
+echo
+echo "EXCLUDE_APPS=("
+echo "$list" | while IFS= read -r suggestion; do
+    echo "\"$suggestion\" \\"
+done
+echo ")"
+
+
+exit 0
