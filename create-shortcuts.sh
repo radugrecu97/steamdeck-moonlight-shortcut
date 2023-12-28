@@ -1,22 +1,32 @@
 #!/bin/bash
-MOONLIGHT_PATH="/home/deck/Downloads/Moonlight.AppImage"
-HOST_NAME="ALPACA"
+
+# Set this to 0 if you want to use APP_IMAGE
+USING_FLATPAK=1
+
+if [ $USING_FLATPAK -eq 1 ]; then
+    MOONLIGHT_EXE="/usr/bin/flatpak"
+    MOONLIGHT_PATH="/usr/bin"
+    LAUNCH_OPTIONS='"run" "--branch=stable" "--arch=x86_64" "--command=moonlight" "com.moonlight_stream.Moonlight"'
+else
+    # If you're using AppImage from nightly builds
+    MOONLIGHT_EXE="<REPLACE_ME>" #i.e. "/home/deck/Downloads/Moonlight.AppImage"
+    MOONLIGHT_PATH="<REPLACE_ME>" #i.e. ""home/deck/Downloads/"
+    LAUNCH_OPTIONS=""
+fi
+
+HOST_NAME="<REPLACE_ME>" #
 
 # Apps to exclude from processing.
 # The names are how they're displayed in the moonlight client
 EXCLUDE_APPS=("Desktop" \
 "PlayNite FullScreen App" \
 "Steam Big Picture" \
-"Baldur's Gate 3" \
-"MONSTER HUNTER: WORLD" \
-"Red Dead Redemption 2" \
-"Remnant II" \
-"Resident Evil 3" \
-# "Resident Evil 4" \
-# "Resident Evil Village" \
 )
 
-CMD="$MOONLIGHT_EXE list $HOST_NAME 2>&1"
+############################### REPLACE THE REQUIRED AND OPTIONAL VALUES ABOVE THIS LINE ######################
+
+
+CMD="$MOONLIGHT_EXE $(echo "${LAUNCH_OPTIONS}" | tr -d '"') list $HOST_NAME 2>&1"
 
 excluded_app_suggestions=""
 
@@ -112,7 +122,7 @@ function process_applications() {
         --appname="$app" \
         --exepath="$MOONLIGHT_EXE" \
         --startdir="$MOONLIGHT_PATH" \
-        --launchoptions="stream \"$HOST_NAME\" \"$app\"" \
+        --launchoptions="$LAUNCH_OPTIONS stream \"$HOST_NAME\" \"$app\"" \
         --use-steamgriddb \
         2>&1)
         echo "Done!"
@@ -128,6 +138,7 @@ print_command_info "$app_list"
 echo
 list=$(get_final_application_list "$app_list")
 echo "The script will create shortcuts for the following applications:"
+echo
 echo "$list"
 
 echo
