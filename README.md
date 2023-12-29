@@ -30,25 +30,38 @@ The main target are non-Steam games -> Epic Games Store, GoG, emulated games
     `git clone https://github.com/radugrecu97/steamdeck-moonlight-shortcut.git
     cd steamdeck-moonlight-shortcut`
 
-5. Pull steamtinkerlaunch submodule:
+5. Open `create-shortcuts.sh` using nano or regular file editor through Dolphin(the file manager) and set your PC name as it appears in Moonlight client:
+
+    `HOST_NAME="<REPLACE_ME>"`
+    
+7. By default, the script will use FlatPak Moonlight. If you're using the AppImage set
+
+    `USING_FLATPAK=0`
+
+   and set paths for:
+
+   `MOONLIGHT_EXE="<REPLACE_ME>"
+    MOONLIGHT_PATH="<REPLACE_ME>"`
+
+8. Pull steamtinkerlaunch submodule:
 
     `git submodule update --init --recursive`
 
-6. Add SteamGridDB key to steamtinkerlaunch
+9. Add SteamGridDB key to steamtinkerlaunch
 
     `./steamtinkerlaunch/steamtinkerlaunch set SGDBAPIKEY global <replace_me_with_key>`
 
-7. Make script executable:
+10. Make script executable:
 
     `chmod +x create-shortcuts.sh`
 
-8. **!!! IMPORTANT !!!** Quit steam application, or the shortcuts won't be created
+11. **!!! IMPORTANT !!!** Quit steam application, or the shortcuts won't be created
 
-9. Run script:
+12. Run script:
 
    `./chmod create-shortcuts.sh`
 
-10. Start steam to confirm that shortcuts are there. Then proceed playing, it will work in Gaming Mode of course
+11. Start steam to confirm that shortcuts are there. Then proceed playing, it will work in Gaming Mode of course
 
 # Other info
 
