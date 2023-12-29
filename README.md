@@ -1,5 +1,6 @@
 # steamdeck-moonlight-shortcut
-A bash script to easily create Moonlight shortcuts based on the available game entries on the Host machine.
+A bash script to easily create Steam shortcuts to your Moonlight applications based on the available entries on the Host machine.
+The main target are non-Steam games -> Epic Games Store, GoG, emulated games
 
 # Features
 * Automatic SteamGridDB artwork (API key needed)
@@ -16,33 +17,38 @@ A bash script to easily create Moonlight shortcuts based on the available game e
 
 # Instructions
 
-Make sure you have a host added in your Moonlight client otherwise the script won't work.
+1. Make sure you have a host added in your Moonlight client otherwise the script won't work.
 
-Switch Steam Deck to desktop mode
+2. Switch Steam Deck to desktop mode
 
-Open a terminal (i.e. Konsole) and enter chosen directory(i.e. Documents):
-    cd /home/deck/Documents/
+3. Open a terminal (i.e. Konsole) and enter chosen directory(i.e. Documents):
 
-Clone this repo:
-    git clone https://github.com/radugrecu97/steamdeck-moonlight-shortcut.git
-    cd steamdeck-moonlight-shortcut
+    `cd /home/deck/Documents/`
 
-Pull steamtinkerlaunch submodule:
-    git submodule update --init --recursive
+4. Clone this repo:
 
-Add SteamGridDB key to steamtinkerlaunch
-    ./steamtinkerlaunch/steamtinkerlaunch set SGDBAPIKEY global <replace_me_with_key>
+    `git clone https://github.com/radugrecu97/steamdeck-moonlight-shortcut.git
+    cd steamdeck-moonlight-shortcut`
 
-Make script executable:
-    chmod +x create-shortcuts.sh
+5. Pull steamtinkerlaunch submodule:
 
-!!! IMPORTANT !!!
-Quit steam application
+    `git submodule update --init --recursive`
 
-Run script:
-    ./chmod create-shortcuts.sh
+6. Add SteamGridDB key to steamtinkerlaunch
 
-Start steam to confirm that shortcuts are there. Then proceed playing, it will work in Gaming Mode of course
+    `./steamtinkerlaunch/steamtinkerlaunch set SGDBAPIKEY global <replace_me_with_key>`
+
+7. Make script executable:
+
+    `chmod +x create-shortcuts.sh`
+
+8. **!!! IMPORTANT !!!** Quit steam application, or the shortcuts won't be created
+
+9. Run script:
+
+   `./chmod create-shortcuts.sh`
+
+10. Start steam to confirm that shortcuts are there. Then proceed playing, it will work in Gaming Mode of course
 
 # Other info
 
