@@ -27,8 +27,7 @@ The main target are non-Steam games -> Epic Games Store, GoG, emulated games
 
 4. Clone this repo:
 
-    `git clone https://github.com/radugrecu97/steamdeck-moonlight-shortcut.git
-    cd steamdeck-moonlight-shortcut`
+    `git clone https://github.com/radugrecu97/steamdeck-moonlight-shortcut.git && git submodule update --init --recursive && cd steamdeck-moonlight-shortcut`
 
 5. Open `create-shortcuts.sh` using nano or regular file editor through Dolphin(the file manager) and set your PC name as it appears in Moonlight client:
 
